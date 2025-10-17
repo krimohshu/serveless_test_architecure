@@ -1,0 +1,54 @@
+{
+  "name": "serverless-typescript-apis",
+  "version": "1.0.0",
+  "description": "TypeScript serverless REST APIs for user, product, and orders",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "deploy": "serverless deploy --aws-profile evident",
+    "deploy-tests": "serverless deploy --config test/serverless-test.yml --aws-profile evident",
+    "remove": "serverless remove --aws-profile evident",
+    "remove-tests": "serverless remove --config test/serverless-test.yml --aws-profile evident",
+    "offline": "serverless offline",
+    "test": "jest",
+    "test:cucumber": "cucumber-js",
+    "test:orchestrator": "aws lambda invoke --function-name test-orchestrator --profile evident --region eu-west-2 response.json",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "serverless",
+    "typescript",
+    "aws",
+    "lambda",
+    "api-gateway"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.131",
+    "@types/jest": "^29.5.11",
+    "@types/node": "^20.10.6",
+    "@typescript-eslint/eslint-plugin": "^6.16.0",
+    "@typescript-eslint/parser": "^6.16.0",
+    "@cucumber/cucumber": "^10.0.1",
+    "@cucumber/pretty-formatter": "^1.0.1",
+    "@types/chai": "^4.3.11",
+    "axios": "^1.6.5",
+    "chai": "^4.4.1",
+    "eslint": "^8.56.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.1.1",
+    "serverless": "^3.38.0",
+    "serverless-offline": "^13.3.0",
+    "serverless-plugin-log-retention": "^2.1.0",
+    "serverless-plugin-typescript": "^2.1.5",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "aws-lambda": "^1.0.7",
+    "@aws-sdk/client-lambda": "^3.478.0",
+    "@aws-sdk/client-s3": "^3.478.0"
+  }
+}

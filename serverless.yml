@@ -1,0 +1,158 @@
+service: serverless-typescript-apis
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-west-2
+  profile: evident
+  stage: ${opt:stage, 'dev'}
+  memorySize: 256
+  timeout: 30
+  environment:
+    STAGE: ${self:provider.stage}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - lambda:InvokeFunction
+          Resource:
+            - arn:aws:lambda:${self:provider.region}:*:function:${self:service}-${self:provider.stage}-*
+        - Effect: Allow
+          Action:
+            - s3:PutObject
+            - s3:GetObject
+          Resource:
+            - arn:aws:s3:::${self:custom.testReportBucket}/*
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 3000
+  testReportBucket: ${self:service}-${self:provider.stage}-test-reports
+
+functions:
+  # User Service - Single Lambda handling all user CRUD operations
+  userService:
+    handler: src/handlers/user.handler
+    events:
+      - http:
+          path: /users
+          method: post
+          cors: true
+      - http:
+          path: /users
+          method: get
+          cors: true
+      - http:
+          path: /users/{id}
+          method: get
+          cors: true
+      - http:
+          path: /users/{id}
+          method: put
+          cors: true
+      - http:
+          path: /users/{id}
+          method: delete
+          cors: true
+
+  # Product Service - Single Lambda handling all product CRUD operations
+  productService:
+    handler: src/handlers/product.handler
+    events:
+      - http:
+          path: /products
+          method: post
+          cors: true
+      - http:
+          path: /products
+          method: get
+          cors: true
+      - http:
+          path: /products/{id}
+          method: get
+          cors: true
+      - http:
+          path: /products/{id}
+          method: put
+          cors: true
+      - http:
+          path: /products/{id}
+          method: delete
+          cors: true
+
+  # Orders Service - Single Lambda handling all order CRUD operations
+  orderService:
+    handler: src/handlers/order.handler
+    events:
+      - http:
+          path: /orders
+          method: post
+          cors: true
+      - http:
+          path: /orders
+          method: get
+          cors: true
+      - http:
+          path: /orders/{id}
+          method: get
+          cors: true
+      - http:
+          path: /orders/{id}
+          method: put
+          cors: true
+      - http:
+          path: /orders/{id}
+          method: delete
+          cors: true
+
+  # Test Orchestrator - Master Lambda that executes all test Lambdas in parallel
+  testOrchestrator:
+    handler: test/orchestrator/handler.handler
+    timeout: 300
+    environment:
+      API_BASE_URL: https://kzkw4oz3mk.execute-api.eu-west-2.amazonaws.com/dev
+      USER_TEST_LAMBDA: ${self:service}-${self:provider.stage}-userTestLambda
+      PRODUCT_TEST_LAMBDA: ${self:service}-${self:provider.stage}-productTestLambda
+      ORDER_TEST_LAMBDA: ${self:service}-${self:provider.stage}-orderTestLambda
+      REPORT_BUCKET: ${self:custom.testReportBucket}
+
+  # User API Test Lambda - Executes User API BDD tests
+  userTestLambda:
+    handler: test/lambdas/user-test.handler
+    timeout: 120
+    environment:
+      API_BASE_URL: https://kzkw4oz3mk.execute-api.eu-west-2.amazonaws.com/dev
+
+  # Product API Test Lambda - Executes Product API BDD tests
+  productTestLambda:
+    handler: test/lambdas/product-test.handler
+    timeout: 120
+    environment:
+      API_BASE_URL: https://kzkw4oz3mk.execute-api.eu-west-2.amazonaws.com/dev
+
+  # Order API Test Lambda - Executes Order API BDD tests
+  orderTestLambda:
+    handler: test/lambdas/order-test.handler
+    timeout: 120
+    environment:
+      API_BASE_URL: https://kzkw4oz3mk.execute-api.eu-west-2.amazonaws.com/dev
+
+resources:
+  Resources:
+    # S3 Bucket for storing test reports
+    TestReportBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.testReportBucket}
+        VersioningConfiguration:
+          Status: Enabled
+        LifecycleConfiguration:
+          Rules:
+            - Id: DeleteOldReports
+              Status: Enabled
+              ExpirationInDays: 30
