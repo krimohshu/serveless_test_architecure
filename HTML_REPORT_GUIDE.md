@@ -1,8 +1,36 @@
 # 📊 How to View HTML Test Reports
 
-## Quick Start (3 Steps)
+## 🎉 NEW: Direct Team Access via S3
 
-### 1️⃣ Run the Tests
+**HTML reports are now automatically generated and uploaded to S3 with public access!**
+
+### ✅ Instant Team Access (Recommended)
+
+When you run the test orchestrator, it automatically:
+1. ✅ Generates both JSON and HTML reports
+2. ✅ Uploads them to S3
+3. ✅ Returns a **public URL** that anyone on your team can access
+
+**Example Response:**
+```json
+{
+  "reports": {
+    "json": "s3://serverless-test-reports-dev/test-reports/2025-10-19/consolidated-report-1760879484293.json",
+    "html": "s3://serverless-test-reports-dev/test-reports/2025-10-19/consolidated-report-1760879484293.html",
+    "htmlPublicUrl": "https://serverless-test-reports-dev.s3.eu-west-2.amazonaws.com/test-reports/2025-10-19/consolidated-report-1760879484293.html"
+  }
+}
+```
+
+**Just share the `htmlPublicUrl` with your team!** 🚀
+
+---
+
+## Traditional Methods (Local Generation)
+
+### Quick Start (3 Steps)
+
+#### 1️⃣ Run the Tests
 
 ```bash
 npm run test:orchestrator
@@ -13,7 +41,7 @@ This will:
 - Save results to `test-results.json`
 - Display summary in terminal
 
-### 2️⃣ Generate HTML Report
+#### 2️⃣ Generate HTML Report
 
 ```bash
 npm run test:report
@@ -24,7 +52,7 @@ This will:
 - Generate `latest-report.html` file
 - Automatically open in your default browser
 
-### 3️⃣ View the Report
+#### 3️⃣ View the Report
 
 The HTML report will open automatically! If not:
 

@@ -394,6 +394,33 @@ aws lambda invoke \
 cat response.json | jq .
 ```
 
+#### 📊 HTML Test Reports on S3
+
+**The test orchestrator automatically generates beautiful HTML reports and uploads them to S3!**
+
+After running tests, you'll get a **public URL** that anyone on your team can access:
+
+```json
+{
+  "reports": {
+    "json": "s3://serverless-test-reports-dev/test-reports/2025-10-19/consolidated-report-1760880344548.json",
+    "html": "s3://serverless-test-reports-dev/test-reports/2025-10-19/consolidated-report-1760880344548.html",
+    "htmlPublicUrl": "https://serverless-test-reports-dev.s3.eu-west-2.amazonaws.com/test-reports/2025-10-19/consolidated-report-1760880344548.html"
+  }
+}
+```
+
+**👉 Simply open the `htmlPublicUrl` in your browser!**
+
+**Features:**
+- ✅ **No AWS Credentials Needed** - Public read-only access
+- ✅ **Beautiful UI** - Modern gradient design with responsive layout
+- ✅ **Detailed Results** - Service breakdown, test details, performance metrics
+- ✅ **Automatic Generation** - Created and uploaded on every test run
+- ✅ **Team Access** - Share the URL with your entire team
+
+**📖 For detailed information, see:** [S3_REPORT_ACCESS_GUIDE.md](./S3_REPORT_ACCESS_GUIDE.md)
+
 #### Individual Test Lambda Invocation
 
 ```bash
