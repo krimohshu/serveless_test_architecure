@@ -12,7 +12,9 @@
     "offline": "serverless offline",
     "test": "jest",
     "test:cucumber": "cucumber-js",
-    "test:orchestrator": "aws lambda invoke --function-name test-orchestrator --profile evident --region eu-west-2 response.json",
+    "test:orchestrator": "aws lambda invoke --function-name serverless-rest-apis-tests-dev-testOrchestrator --profile evident --region eu-west-2 test-results.json && cat test-results.json | jq -r '.body' | jq .",
+    "test:report": "node scripts/generate-html-report.js ./latest-report.json && open ./latest-report.html",
+    "test:download-report": "aws s3 cp s3://serverless-test-reports-dev/test-reports/$(date +%Y-%m-%d)/ ./test-reports/ --recursive --profile evident --region eu-west-2",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write ."
   },

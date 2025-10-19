@@ -1,0 +1,254 @@
+{
+  "timestamp": "2025-10-19T12:38:35.009Z",
+  "summary": {
+    "totalServices": 3,
+    "totalScenarios": 36,
+    "totalPassed": 29,
+    "totalFailed": 7,
+    "totalDuration": 2197,
+    "overallStatus": "success"
+  },
+  "serviceResults": [
+    {
+      "service": "user",
+      "status": "success",
+      "duration": 1603,
+      "scenarios": 8,
+      "passed": 8,
+      "failed": 0,
+      "report": {
+        "tests": [
+          {
+            "name": "Create a new user",
+            "status": "passed",
+            "duration": 596
+          },
+          {
+            "name": "Retrieve all users",
+            "status": "passed",
+            "duration": 41
+          },
+          {
+            "name": "Retrieve specific user",
+            "status": "passed",
+            "duration": 33
+          },
+          {
+            "name": "Retrieve non-existent user",
+            "status": "passed",
+            "duration": 32
+          },
+          {
+            "name": "Update existing user",
+            "status": "passed",
+            "duration": 36
+          },
+          {
+            "name": "Update non-existent user",
+            "status": "passed",
+            "duration": 32
+          },
+          {
+            "name": "Delete non-existent user",
+            "status": "passed",
+            "duration": 32
+          },
+          {
+            "name": "Create user with invalid data",
+            "status": "passed",
+            "duration": 29
+          }
+        ],
+        "summary": {
+          "total": 8,
+          "passed": 8,
+          "failed": 0,
+          "duration": 831
+        }
+      }
+    },
+    {
+      "service": "product",
+      "status": "success",
+      "duration": 1668,
+      "scenarios": 11,
+      "passed": 11,
+      "failed": 0,
+      "report": {
+        "tests": [
+          {
+            "name": "Create a new product",
+            "status": "passed",
+            "duration": 531
+          },
+          {
+            "name": "Retrieve all products",
+            "status": "passed",
+            "duration": 36
+          },
+          {
+            "name": "Retrieve specific product",
+            "status": "passed",
+            "duration": 31
+          },
+          {
+            "name": "Retrieve non-existent product",
+            "status": "passed",
+            "duration": 31
+          },
+          {
+            "name": "Update existing product",
+            "status": "passed",
+            "duration": 31
+          },
+          {
+            "name": "Update product price only",
+            "status": "passed",
+            "duration": 29
+          },
+          {
+            "name": "Update non-existent product",
+            "status": "passed",
+            "duration": 34
+          },
+          {
+            "name": "Create product with invalid data",
+            "status": "passed",
+            "duration": 39
+          },
+          {
+            "name": "Verify stock management",
+            "status": "passed",
+            "duration": 68
+          },
+          {
+            "name": "Delete created product",
+            "status": "passed",
+            "duration": 32
+          },
+          {
+            "name": "Delete non-existent product",
+            "status": "passed",
+            "duration": 37
+          }
+        ],
+        "summary": {
+          "total": 11,
+          "passed": 11,
+          "failed": 0,
+          "duration": 900
+        }
+      }
+    },
+    {
+      "service": "order",
+      "status": "success",
+      "duration": 2190,
+      "scenarios": 17,
+      "passed": 10,
+      "failed": 7,
+      "report": {
+        "tests": [
+          {
+            "name": "Setup: Create test user",
+            "status": "passed",
+            "duration": 564
+          },
+          {
+            "name": "Setup: Create test product",
+            "status": "passed",
+            "duration": 58
+          },
+          {
+            "name": "Create a new order",
+            "status": "failed",
+            "error": "Request failed with status code 404",
+            "duration": 453
+          },
+          {
+            "name": "Retrieve all orders",
+            "status": "passed",
+            "duration": 38
+          },
+          {
+            "name": "Retrieve specific order",
+            "status": "failed",
+            "error": "No order created",
+            "duration": 0
+          },
+          {
+            "name": "Retrieve non-existent order",
+            "status": "passed",
+            "duration": 30
+          },
+          {
+            "name": "Update order status",
+            "status": "failed",
+            "error": "No order created",
+            "duration": 1
+          },
+          {
+            "name": "Update order products",
+            "status": "failed",
+            "error": "Test data missing",
+            "duration": 0
+          },
+          {
+            "name": "Update non-existent order",
+            "status": "passed",
+            "duration": 31
+          },
+          {
+            "name": "Create order with invalid user",
+            "status": "passed",
+            "duration": 34
+          },
+          {
+            "name": "Create order with invalid product",
+            "status": "passed",
+            "duration": 32
+          },
+          {
+            "name": "Create order with insufficient stock",
+            "status": "failed",
+            "error": "Request failed with status code 404",
+            "duration": 58
+          },
+          {
+            "name": "Create order with missing data",
+            "status": "passed",
+            "duration": 34
+          },
+          {
+            "name": "Verify order status transitions",
+            "status": "failed",
+            "error": "No order created",
+            "duration": 0
+          },
+          {
+            "name": "Cleanup: Delete test product",
+            "status": "passed",
+            "duration": 34
+          },
+          {
+            "name": "Cleanup: Delete test user",
+            "status": "failed",
+            "error": "Request failed with status code 404",
+            "duration": 33
+          },
+          {
+            "name": "Delete non-existent order",
+            "status": "passed",
+            "duration": 31
+          }
+        ],
+        "summary": {
+          "total": 17,
+          "passed": 10,
+          "failed": 7,
+          "duration": 1431
+        }
+      }
+    }
+  ]
+}

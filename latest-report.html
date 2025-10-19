@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDD Test Report - 10/19/2025, 1:38:35 PM</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            background: #f8f9fa;
+        }
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        .stat-card .value {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .stat-card .label {
+            color: #6c757d;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            letter-spacing: 1px;
+        }
+        .stat-card.success .value { color: #28a745; }
+        .stat-card.danger .value { color: #dc3545; }
+        .stat-card.info .value { color: #17a2b8; }
+        .stat-card.warning .value { color: #ffc107; }
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .services { padding: 40px; }
+        .service-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        .service-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .service-header h2 {
+            font-size: 1.8em;
+            text-transform: capitalize;
+        }
+        .service-stats {
+            display: flex;
+            gap: 20px;
+        }
+        .service-stat {
+            text-align: center;
+        }
+        .service-stat .value {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .service-stat .label {
+            font-size: 0.8em;
+            opacity: 0.9;
+        }
+        .tests-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .tests-table thead {
+            background: #f8f9fa;
+        }
+        .tests-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #495057;
+            border-bottom: 2px solid #dee2e6;
+        }
+        .tests-table td {
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .tests-table tr:hover {
+            background: #f8f9fa;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-badge.passed {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-badge.failed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .duration {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 0.9em;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        .footer {
+            background: #343a40;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 BDD Test Execution Report</h1>
+            <div class="timestamp">📅 10/19/2025, 1:38:35 PM</div>
+        </div>
+        
+        <div class="summary">
+            <div class="stat-card info">
+                <div class="label">Total Scenarios</div>
+                <div class="value">36</div>
+            </div>
+            <div class="stat-card success">
+                <div class="label">Passed</div>
+                <div class="value">29</div>
+            </div>
+            <div class="stat-card danger">
+                <div class="label">Failed</div>
+                <div class="value">7</div>
+            </div>
+            <div class="stat-card warning">
+                <div class="label">Duration</div>
+                <div class="value">2.2s</div>
+            </div>
+        </div>
+        
+        <div style="padding: 0 40px;">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 80.6%">
+                    80.6% Pass Rate
+                </div>
+            </div>
+        </div>
+        
+        <div class="services">
+            
+                <div class="service-card">
+                    <div class="service-header">
+                        <h2>user API</h2>
+                        <div class="service-stats">
+                            <div class="service-stat">
+                                <div class="value">8</div>
+                                <div class="label">Scenarios</div>
+                            </div>
+                            <div class="service-stat">
+                                <div class="value">8</div>
+                                <div class="label">Passed</div>
+                            </div>
+                            <div class="service-stat">
+                                <div class="value">0</div>
+                                <div class="label">Failed</div>
+                            </div>
+                            <div class="service-stat">
+                                <div class="value">1.6s</div>
+                                <div class="label">Duration</div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="tests-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50%">Test Scenario</th>
+                                <th style="width: 20%; text-align: center;">Status</th>
+                                <th style="width: 15%; text-align: right;">Duration</th>
+                                <th style="width: 15%; text-align: center;">Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>1.</strong> Create a new user
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">596ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>2.</strong> Retrieve all users
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">41ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>3.</strong> Retrieve specific user
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">33ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>4.</strong> Retrieve non-existent user
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">32ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>5.</strong> Update existing user
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">36ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>6.</strong> Update non-existent user
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">32ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>7.</strong> Delete non-existent user
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">32ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>8.</strong> Create user with invalid data
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">29ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            
+                <div class="service-card">
+                    <div class="service-header">
+                        <h2>product API</h2>
+                        <div class="service-stats">
+                            <div class="service-stat">
+                                <div class="value">11</div>
+                                <div class="label">Scenarios</div>
+                            </div>
+                            <div class="service-stat">
+                                <div class="value">11</div>
+                                <div class="label">Passed</div>
+                            </div>
+                            <div class="service-stat">
+                                <div class="value">0</div>
+                                <div class="label">Failed</div>
+                            </div>
+                            <div class="service-stat">
+                                <div class="value">1.7s</div>
+                                <div class="label">Duration</div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="tests-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50%">Test Scenario</th>
+                                <th style="width: 20%; text-align: center;">Status</th>
+                                <th style="width: 15%; text-align: right;">Duration</th>
+                                <th style="width: 15%; text-align: center;">Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>1.</strong> Create a new product
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">531ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>2.</strong> Retrieve all products
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">36ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>3.</strong> Retrieve specific product
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">31ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>4.</strong> Retrieve non-existent product
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">31ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>5.</strong> Update existing product
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">31ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>6.</strong> Update product price only
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">29ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>7.</strong> Update non-existent product
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">34ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>8.</strong> Create product with invalid data
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">39ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>9.</strong> Verify stock management
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">68ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>10.</strong> Delete created product
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">32ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>11.</strong> Delete non-existent product
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">37ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            
+                <div class="service-card">
+                    <div class="service-header">
+                        <h2>order API</h2>
+                        <div class="service-stats">
+                            <div class="service-stat">
+                                <div class="value">17</div>
+                                <div class="label">Scenarios</div>
+                            </div>
+                            <div class="service-stat">
+                                <div class="value">10</div>
+                                <div class="label">Passed</div>
+                            </div>
+                            <div class="service-stat">
+                                <div class="value">7</div>
+                                <div class="label">Failed</div>
+                            </div>
+                            <div class="service-stat">
+                                <div class="value">2.2s</div>
+                                <div class="label">Duration</div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="tests-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50%">Test Scenario</th>
+                                <th style="width: 20%; text-align: center;">Status</th>
+                                <th style="width: 15%; text-align: right;">Duration</th>
+                                <th style="width: 15%; text-align: center;">Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>1.</strong> Setup: Create test user
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">564ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>2.</strong> Setup: Create test product
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">58ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>3.</strong> Create a new order
+                                        <div class="error-message">❌ Request failed with status code 404</div>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge failed">✗ failed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">453ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ⚠️
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>4.</strong> Retrieve all orders
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">38ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>5.</strong> Retrieve specific order
+                                        <div class="error-message">❌ No order created</div>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge failed">✗ failed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">0ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ⚠️
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>6.</strong> Retrieve non-existent order
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">30ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>7.</strong> Update order status
+                                        <div class="error-message">❌ No order created</div>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge failed">✗ failed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">1ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ⚠️
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>8.</strong> Update order products
+                                        <div class="error-message">❌ Test data missing</div>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge failed">✗ failed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">0ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ⚠️
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>9.</strong> Update non-existent order
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">31ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>10.</strong> Create order with invalid user
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">34ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>11.</strong> Create order with invalid product
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">32ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>12.</strong> Create order with insufficient stock
+                                        <div class="error-message">❌ Request failed with status code 404</div>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge failed">✗ failed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">58ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ⚠️
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>13.</strong> Create order with missing data
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">34ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>14.</strong> Verify order status transitions
+                                        <div class="error-message">❌ No order created</div>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge failed">✗ failed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">0ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ⚠️
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>15.</strong> Cleanup: Delete test product
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">34ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>16.</strong> Cleanup: Delete test user
+                                        <div class="error-message">❌ Request failed with status code 404</div>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge failed">✗ failed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">33ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ⚠️
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>
+                                        <strong>17.</strong> Delete non-existent order
+                                        
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="status-badge passed">✓ passed</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="duration">31ms</span>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        ✅
+                                    </td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            
+        </div>
+        
+        <div class="footer">
+            <p>Generated by Serverless BDD Test Framework</p>
+            <p><a href="https://github.com/krimohshu/serveless_test_architecure" target="_blank">GitHub Repository</a></p>
+        </div>
+    </div>
+</body>
+</html>
