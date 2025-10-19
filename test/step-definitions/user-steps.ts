@@ -12,7 +12,7 @@ When('I send a POST request to {string} with user data:', async function(endpoin
     });
     
     // Track created user for cleanup
-    if (context.response.data.success && context.response.data.data.id) {
+    if (context.response?.data?.success && context.response.data.data?.id) {
       context.createdUsers.push(context.response.data.data.id);
     }
   } catch (error) {

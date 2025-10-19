@@ -1,0 +1,160 @@
+service: serverless-rest-apis-tests
+
+frameworkVersion: '3'
+
+package:
+  patterns:
+    - '!.git/**'
+    - '!.vscode/**'
+    - '!src/**'
+    - '!test/**/*.ts'
+    - '!README*.md'
+    - '!*.log'
+    - '.build/**'
+    - 'node_modules/**'
+    - 'test/features/**'
+    - 'test/step-definitions/**'
+    - 'package.json'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'}
+  region: eu-west-2
+  profile: evident
+  memorySize: 512
+  timeout: 300
+  environment:
+    NODE_ENV: ${self:provider.stage}
+    API_BASE_URL: https://kzkw4oz3mk.execute-api.eu-west-2.amazonaws.com/dev
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - lambda:InvokeFunction
+          Resource:
+            - arn:aws:lambda:${self:provider.region}:*:function:${self:service}-${self:provider.stage}-*
+        - Effect: Allow
+          Action:
+            - s3:PutObject
+            - s3:GetObject
+          Resource:
+            - arn:aws:s3:::${self:custom.reportsBucket}/*
+        - Effect: Allow
+          Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+          Resource:
+            - arn:aws:logs:${self:provider.region}:*:log-group:/aws/lambda/*
+
+custom:
+  reportsBucket: serverless-test-reports-${self:provider.stage}
+
+functions:
+  # Test Orchestrator - Master Lambda that runs all tests in parallel
+  testOrchestrator:
+    handler: .build/test/orchestrator/handler.handler
+    description: Master test orchestrator that runs all API tests in parallel
+    events:
+      - http:
+          path: test/orchestrate
+          method: post
+          cors: true
+    environment:
+      USER_TEST_FUNCTION: serverless-rest-apis-tests-dev-userTestRunner
+      PRODUCT_TEST_FUNCTION: serverless-rest-apis-tests-dev-productTestRunner
+      ORDER_TEST_FUNCTION: serverless-rest-apis-tests-dev-orderTestRunner
+      REPORTS_BUCKET: ${self:custom.reportsBucket}
+
+  # User API Test Runner
+  userTestRunner:
+    handler: .build/test/lambdas/user-test.handler
+    description: Test runner for User API - executes BDD test scenarios
+    events:
+      - http:
+          path: test/user
+          method: post
+          cors: true
+    environment:
+      API_BASE_URL: ${self:provider.environment.API_BASE_URL}
+
+  # Product API Test Runner
+  productTestRunner:
+    handler: .build/test/lambdas/product-test.handler
+    description: Test runner for Product API - executes BDD test scenarios
+    events:
+      - http:
+          path: test/product
+          method: post
+          cors: true
+    environment:
+      API_BASE_URL: ${self:provider.environment.API_BASE_URL}
+
+  # Order API Test Runner
+  orderTestRunner:
+    handler: .build/test/lambdas/order-test.handler
+    description: Test runner for Order API - executes BDD test scenarios
+    events:
+      - http:
+          path: test/order
+          method: post
+          cors: true
+    environment:
+      API_BASE_URL: ${self:provider.environment.API_BASE_URL}
+
+resources:
+  Resources:
+    # S3 Bucket for storing test reports
+    TestReportsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.reportsBucket}
+        VersioningConfiguration:
+          Status: Enabled
+        LifecycleConfiguration:
+          Rules:
+            - Id: DeleteOldReports
+              Status: Enabled
+              ExpirationInDays: 30
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: true
+          BlockPublicPolicy: true
+          IgnorePublicAcls: true
+          RestrictPublicBuckets: true
+
+  Outputs:
+    TestOrchestratorFunction:
+      Description: Test Orchestrator Lambda Function ARN
+      Value: !GetAtt TestOrchestratorLambdaFunction.Arn
+      Export:
+        Name: ${self:service}-${self:provider.stage}-orchestrator-arn
+    
+    UserTestRunnerFunction:
+      Description: User Test Runner Lambda Function ARN
+      Value: !GetAtt UserTestRunnerLambdaFunction.Arn
+      Export:
+        Name: ${self:service}-${self:provider.stage}-user-test-arn
+    
+    ProductTestRunnerFunction:
+      Description: Product Test Runner Lambda Function ARN
+      Value: !GetAtt ProductTestRunnerLambdaFunction.Arn
+      Export:
+        Name: ${self:service}-${self:provider.stage}-product-test-arn
+    
+    OrderTestRunnerFunction:
+      Description: Order Test Runner Lambda Function ARN
+      Value: !GetAtt OrderTestRunnerLambdaFunction.Arn
+      Export:
+        Name: ${self:service}-${self:provider.stage}-order-test-arn
+    
+    TestReportsBucketName:
+      Description: S3 Bucket for Test Reports
+      Value: !Ref TestReportsBucket
+      Export:
+        Name: ${self:service}-${self:provider.stage}-reports-bucket
+
+    TestOrchestratorEndpoint:
+      Description: Test Orchestrator API Endpoint
+      Value: !Sub https://${ApiGatewayRestApi}.execute-api.${AWS::Region}.amazonaws.com/${self:provider.stage}/test/orchestrate

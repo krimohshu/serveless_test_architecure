@@ -36,9 +36,9 @@ export const handler = async (
   const s3Client = new S3Client({ region: 'eu-west-2' });
   
   const testFunctions = [
-    'serverless-typescript-apis-dev-userTestRunner',
-    'serverless-typescript-apis-dev-productTestRunner', 
-    'serverless-typescript-apis-dev-orderTestRunner'
+    process.env.USER_TEST_FUNCTION || 'serverless-rest-apis-tests-dev-userTestRunner',
+    process.env.PRODUCT_TEST_FUNCTION || 'serverless-rest-apis-tests-dev-productTestRunner', 
+    process.env.ORDER_TEST_FUNCTION || 'serverless-rest-apis-tests-dev-orderTestRunner'
   ];
 
   try {
@@ -69,14 +69,18 @@ export const handler = async (
         if (response.Payload) {
           const result = JSON.parse(Buffer.from(response.Payload).toString());
           
+          // Parse the body which contains the actual test results
+          const bodyData = result.body ? JSON.parse(result.body) : null;
+          const testData = bodyData?.data || bodyData || {};
+          
           return {
             service: serviceName,
             status: result.statusCode === 200 ? 'success' : 'failed',
             duration: testDuration,
-            scenarios: result.body ? JSON.parse(result.body)?.scenarios || 0 : 0,
-            passed: result.body ? JSON.parse(result.body)?.passed || 0 : 0,
-            failed: result.body ? JSON.parse(result.body)?.failed || 0 : 0,
-            report: result.body ? JSON.parse(result.body)?.report : null
+            scenarios: testData.scenarios || 0,
+            passed: testData.passed || 0,
+            failed: testData.failed || 0,
+            report: testData.report || null
           } as TestResult;
         }
         
