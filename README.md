@@ -67,6 +67,7 @@ This project implements a **modern serverless testing architecture** with 3 REST
 ✅ **BDD Testing Framework** - Cucumber feature files with 38+ comprehensive test scenarios  
 ✅ **Parallel Test Execution** - Test orchestrator runs all tests concurrently for speed  
 ✅ **Aggregated Reporting** - Consolidated test reports from all test functions  
+✅ **OpenAPI 3.0 Specification** - Complete Swagger/OpenAPI documentation for all APIs  
 ✅ **TypeScript** - Full type safety and modern JavaScript features  
 ✅ **API Gateway Integration** - RESTful endpoints with CORS support  
 ✅ **In-memory Data Store** - Easy to migrate to DynamoDB or other databases  
@@ -496,9 +497,46 @@ The Test Orchestrator generates aggregated reports in this format:
 
 ## 📚 API Documentation
 
-### User API
+### 🔖 Complete OpenAPI/Swagger Documentation
 
-#### Create User
+**📖 [View Complete API Documentation →](./API_DOCUMENTATION.md)**
+
+This project includes comprehensive **OpenAPI 3.0 (Swagger)** specification with:
+- ✅ All endpoints documented with examples
+- ✅ Request/response schemas with validation
+- ✅ Interactive documentation (Swagger UI)
+- ✅ Multiple example scenarios
+- ✅ Error response documentation
+- ✅ Data model specifications
+
+**Quick Access:**
+- **OpenAPI Spec (YAML)**: [`openapi.yaml`](./openapi.yaml) - Recommended format
+- **OpenAPI Spec (JSON)**: [`openapi.json`](./openapi.json) - Alternative format
+- **Documentation Guide**: [`API_DOCUMENTATION.md`](./API_DOCUMENTATION.md) - How to use the docs
+
+**View Interactive Docs:**
+```bash
+# Install Swagger UI viewer
+npm install -g swagger-ui-watcher
+
+# Launch interactive documentation
+npm run api:docs
+
+# Or open in Swagger Editor
+# Visit: https://editor.swagger.io/
+# Import: openapi.yaml
+```
+
+**Validate API Spec:**
+```bash
+npm run api:validate
+```
+
+### Quick API Examples
+
+#### User API
+
+##### Create User
 ```bash
 POST /users
 Content-Type: application/json
@@ -510,10 +548,15 @@ Content-Type: application/json
 
 # Response
 {
-  "id": "uuid-here",
-  "name": "John Doe",
-  "email": "john@example.com",
-  "createdAt": "2024-01-15T10:30:00Z"
+  "success": true,
+  "data": {
+    "id": "usr_1729435200000_abc123",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "createdAt": "2025-10-20T10:30:00.000Z",
+    "updatedAt": "2025-10-20T10:30:00.000Z"
+  },
+  "message": "User created successfully"
 }
 ```
 
