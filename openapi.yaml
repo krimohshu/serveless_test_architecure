@@ -93,7 +93,7 @@ paths:
                   value:
                     success: true
                     data:
-                      id: usr_1729435200000_abc123
+                      id: a9df96594
                       name: John Doe
                       email: john.doe@example.com
                       createdAt: '2025-10-20T10:30:00.000Z'
@@ -123,12 +123,12 @@ paths:
                   value:
                     success: true
                     data:
-                      - id: usr_1729435200000_abc123
+                      - id: a9df96594
                         name: John Doe
                         email: john.doe@example.com
                         createdAt: '2025-10-20T10:30:00.000Z'
                         updatedAt: '2025-10-20T10:30:00.000Z'
-                      - id: usr_1729435300000_def456
+                      - id: b3ef87205
                         name: Jane Smith
                         email: jane.smith@example.com
                         createdAt: '2025-10-20T10:35:00.000Z'
@@ -264,7 +264,7 @@ paths:
                   value:
                     success: true
                     data:
-                      id: prd_1729435200000_xyz789
+                      id: c8de76316
                       name: Laptop Pro
                       description: High-performance laptop with 16GB RAM
                       price: 1299.99
@@ -296,7 +296,7 @@ paths:
                   value:
                     success: true
                     data:
-                      - id: prd_1729435200000_xyz789
+                      - id: c8de76316
                         name: Laptop Pro
                         description: High-performance laptop
                         price: 1299.99
@@ -304,7 +304,7 @@ paths:
                         stock: 50
                         createdAt: '2025-10-20T10:30:00.000Z'
                         updatedAt: '2025-10-20T10:30:00.000Z'
-                      - id: prd_1729435300000_abc123
+                      - id: d7cf65427
                         name: TypeScript Handbook
                         description: Comprehensive guide
                         price: 39.99
@@ -414,20 +414,20 @@ paths:
               singleProduct:
                 summary: Order with single product
                 value:
-                  userId: usr_1729435200000_abc123
+                  userId: a9df96594
                   products:
-                    - productId: prd_1729435200000_xyz789
+                    - productId: c8de76316
                       quantity: 1
                       price: 1299.99
               multipleProducts:
                 summary: Order with multiple products
                 value:
-                  userId: usr_1729435200000_abc123
+                  userId: a9df96594
                   products:
-                    - productId: prd_1729435200000_xyz789
+                    - productId: c8de76316
                       quantity: 2
                       price: 1299.99
-                    - productId: prd_1729435300000_abc123
+                    - productId: d7cf65427
                       quantity: 3
                       price: 39.99
       responses:
@@ -442,10 +442,10 @@ paths:
                   value:
                     success: true
                     data:
-                      id: ord_1729435400000_qwe456
-                      userId: usr_1729435200000_abc123
+                      id: e6bg54538
+                      userId: a9df96594
                       products:
-                        - productId: prd_1729435200000_xyz789
+                        - productId: c8de76316
                           quantity: 1
                           price: 1299.99
                       totalAmount: 1299.99
@@ -491,10 +491,10 @@ paths:
                   value:
                     success: true
                     data:
-                      - id: ord_1729435400000_qwe456
-                        userId: usr_1729435200000_abc123
+                      - id: e6bg54538
+                        userId: a9df96594
                         products:
-                          - productId: prd_1729435200000_xyz789
+                          - productId: c8de76316
                             quantity: 1
                             price: 1299.99
                         totalAmount: 1299.99
@@ -548,7 +548,7 @@ paths:
                 summary: Update order products
                 value:
                   products:
-                    - productId: prd_1729435200000_xyz789
+                    - productId: c8de76316
                       quantity: 2
                       price: 1299.99
               shipOrder:
@@ -593,31 +593,31 @@ components:
       name: id
       in: path
       required: true
-      description: Unique identifier of the user
+      description: Unique identifier of the user (9-character alphanumeric)
       schema:
         type: string
-        pattern: '^usr_[0-9]+_[a-z0-9]+$'
-        example: usr_1729435200000_abc123
+        pattern: '^[a-z0-9]{9}$'
+        example: a9df96594
     
     ProductId:
       name: id
       in: path
       required: true
-      description: Unique identifier of the product
+      description: Unique identifier of the product (9-character alphanumeric)
       schema:
         type: string
-        pattern: '^prd_[0-9]+_[a-z0-9]+$'
-        example: prd_1729435200000_xyz789
+        pattern: '^[a-z0-9]{9}$'
+        example: b8ce85483
     
     OrderId:
       name: id
       in: path
       required: true
-      description: Unique identifier of the order
+      description: Unique identifier of the order (9-character alphanumeric)
       schema:
         type: string
-        pattern: '^ord_[0-9]+_[a-z0-9]+$'
-        example: ord_1729435400000_qwe456
+        pattern: '^[a-z0-9]{9}$'
+        example: c7bd74372
 
   schemas:
     # User Schemas
@@ -632,9 +632,9 @@ components:
       properties:
         id:
           type: string
-          description: Unique identifier for the user
-          pattern: '^usr_[0-9]+_[a-z0-9]+$'
-          example: usr_1729435200000_abc123
+          description: Unique identifier for the user (9-character alphanumeric)
+          pattern: '^[a-z0-9]{9}$'
+          example: a9df96594
         name:
           type: string
           description: Full name of the user
@@ -706,9 +706,9 @@ components:
       properties:
         id:
           type: string
-          description: Unique identifier for the product
-          pattern: '^prd_[0-9]+_[a-z0-9]+$'
-          example: prd_1729435200000_xyz789
+          description: Unique identifier for the product (9-character alphanumeric)
+          pattern: '^[a-z0-9]{9}$'
+          example: b8ce85483
         name:
           type: string
           description: Name of the product
@@ -827,14 +827,14 @@ components:
       properties:
         id:
           type: string
-          description: Unique identifier for the order
-          pattern: '^ord_[0-9]+_[a-z0-9]+$'
-          example: ord_1729435400000_qwe456
+          description: Unique identifier for the order (9-character alphanumeric)
+          pattern: '^[a-z0-9]{9}$'
+          example: c7bd74372
         userId:
           type: string
-          description: ID of the user who placed the order
-          pattern: '^usr_[0-9]+_[a-z0-9]+$'
-          example: usr_1729435200000_abc123
+          description: ID of the user who placed the order (9-character alphanumeric)
+          pattern: '^[a-z0-9]{9}$'
+          example: a9df96594
         products:
           type: array
           description: List of products in the order
@@ -877,9 +877,9 @@ components:
       properties:
         productId:
           type: string
-          description: ID of the product
-          pattern: '^prd_[0-9]+_[a-z0-9]+$'
-          example: prd_1729435200000_xyz789
+          description: ID of the product (9-character alphanumeric)
+          pattern: '^[a-z0-9]{9}$'
+          example: b8ce85483
         quantity:
           type: integer
           description: Quantity of the product
@@ -900,9 +900,9 @@ components:
       properties:
         userId:
           type: string
-          description: ID of the user placing the order
-          pattern: '^usr_[0-9]+_[a-z0-9]+$'
-          example: usr_1729435200000_abc123
+          description: ID of the user placing the order (9-character alphanumeric)
+          pattern: '^[a-z0-9]{9}$'
+          example: a9df96594
         products:
           type: array
           description: List of products to order
